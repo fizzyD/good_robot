@@ -42,7 +42,7 @@ size = len(heights)
 net = nl.net.newff([[min(heights), max(heights)],[min(hairiness),max(hairiness)]], [2, 8, 4] )
 
 # train the network
-error = nl.train.train_rprop(net,np.array(nn_inputs), np.array(nn_outputs), epochs=50000, show=100, goal=0.02)
+error = nl.train.train_rprop(net,np.array(nn_inputs), np.array(nn_outputs), epochs=50000, show=100, goal=0.02, lr = 0.2)
 #import pdb
 #pdb.set_trace()
 out = net.sim(np.array(nn_inputs))
