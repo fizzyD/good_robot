@@ -12,43 +12,39 @@ import pylab as pl
 def plot_robot_judgement(nn_inputs, nn_outputs):
     # Plot results:
     pl.title('Training Data')
+    childx = []
+    childy = []
+    adult = []
+    vampire = []
+    werewolf = []
     for i in range(len(nn_outputs)):
-        child = 0
-        adult = 0
-        vampire = 0
-        werewolf = 0
+        ischild = False
+        isadult = False
+        isvampire = False
+        iswerewolf = False
         (tall, hairy) = nn_inputs[i]
         ( impale, scream, runaway, greet) = nn_outputs[i]
         if greet == 1 and scream == 1:
-            child = 1
-            print "greet " + str(greet)
+            childx.append(tall)
+            childy.append(hairy)
         elif greet == 1 and scream ==0:
-            adult = 1
+            adult.append([tall,hairy])
         elif impale == 1:
-            vampire = 1
+            vampire.append([tall,hairy])
         elif runaway == 1:
-            werewolf = 1
+            werewolf.append([tall,hairy])
             pass
         print "[ impale, scream, runaway, greet]"
         print nn_outputs[i]
-        pl.hold(True)
-        if (child == 1):
-            print "child"
-            pl.plot(tall, hairy,'bo')
-        elif ( adult == 1):
-            print "adult"
-            pl.plot(tall, hairy,'ko')
-        elif ( vampire == 1):
-            print "vampire"
-            pl.plot(tall, hairy,'yd')
-        elif ( werewolf == 1):
-            print "werewolf"
-            pl.plot(tall, hairy,'rd')
-            pass
         pass
-    #pl.plot(heights, hairiness,'x')
+    pl.plot(childx,childy, 'bo')
+    pl.hold(True)
+    #pl.plot(adult, 'go')
+    #pl.plot(vampire, 'rd')
+    #pl.plot(werewolf, 'yd')
     pl.xlabel('Height')
     pl.ylabel('Hairiness')
+    pl.legend(('child', 'adult','vampire','werewolf'))
     pl.show()
     pass
 
