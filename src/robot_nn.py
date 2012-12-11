@@ -14,31 +14,36 @@ def plot_robot_judgement(nn_inputs, nn_outputs):
     pl.title('Training Data')
     childx = []
     childy = []
-    adult = []
-    vampire = []
-    werewolf = []
+    adultx = []
+    adulty = []
+    vampirex = []
+    vampirey = []
+    werewolfx = []
+    werewolfy = []
     for i in range(len(nn_outputs)):
-        ischild = False
-        isadult = False
-        isvampire = False
-        iswerewolf = False
         (tall, hairy) = nn_inputs[i]
         ( impale, scream, runaway, greet) = nn_outputs[i]
         if greet == 1 and scream == 1:
             childx.append(tall)
             childy.append(hairy)
         elif greet == 1 and scream ==0:
-            adult.append([tall,hairy])
+            adultx.append(tall)
+            adulty.append(hairy)
         elif impale == 1:
-            vampire.append([tall,hairy])
+            vampirex.append(tall)
+            vampirey.append(hairy)
         elif runaway == 1:
-            werewolf.append([tall,hairy])
+            werewolfx.append(tall)
+            werewolfy.append(hairy)
             pass
         print "[ impale, scream, runaway, greet]"
         print nn_outputs[i]
         pass
     pl.plot(childx,childy, 'bo')
     pl.hold(True)
+    pl.plot(adultx,adulty, 'go')
+    pl.plot(vampirex,vampirey, 'rd')
+    pl.plot(werewolfx,werewolfy, 'yd')
     #pl.plot(adult, 'go')
     #pl.plot(vampire, 'rd')
     #pl.plot(werewolf, 'yd')
@@ -117,7 +122,28 @@ def main():
         pass
 
     plot_robot_judgement(dataset, out)
-    print out
+    while True:
+        height = float(raw_input("Enter a height : "))
+        hairy = float(raw_input("Enter hairiness : "))
+        dataset = []
+        dataset.append([height, hairy])
+        input = np.array(dataset)
+        print input
+        out = net.sim(input)
+        ( impale, scream, runaway, greet) = out[0]
+        if greet > 0.5:
+            print "Greetings..."
+            pass
+        if scream > 0.5:
+            print "INTRUDER ALERT!"
+            pass
+        if impale > 0.5:
+            print "STAKE TO THE HEART!"
+            pass
+        if runaway > 0.5:
+            print "RUN AWAY! RUN AWAY!"
+            pass
+    #print out
     pass
 
 if __name__ == "__main__":
